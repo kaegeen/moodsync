@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <title>MoodSync</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      transition: background-color 1s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-8">
+  <h1 class="text-3xl font-semibold mb-8">MoodSync</h1>
+
+  <div class="space-y-4 w-full max-w-sm">
+    <label class="block">
+      Mood (1 low - 5 high)
+      <input id="mood" type="range" min="1" max="5" step="1" value="3" class="w-full" />
+    </label>
+
+    <label class="block">
+      Energy (1 low - 5 high)
+      <input id="energy" type="range" min="1" max="5" step="1" value="3" class="w-full" />
+    </label>
+
+    <button id="submit" class="w-full bg-blue-700 text-white py-2 rounded">Update Mood</button>
+  </div>
+
+  <script>
+    const moodInput = document.getElementById("mood")
+    const energyInput = document.getElementById("energy")
+    const submitBtn = document.getElementById("submit")
+
+    function updateBackground() {
+      const mood = +moodInput.value
+      const energy = +energyInput.value
+
+      // Map mood & energy to a color
+      // Mood: blue (low) to yellow (high)
+      // Energy: dark (low) to bright (high)
+      const moodRatio = (mood - 1) / 4
+      const energyRatio = (energy - 1) / 4
+
+      const r = Math.floor(255 * energyRatio + 30 * (1 - energyRatio))
+      const g = Math.floor(255 * moodRatio + 30 * (1 - moodRatio))
+      const b = Math.floor(100 * (1 - moodRatio))
+
+      document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+    }
+
+    submitBtn.addEventListener("click", updateBackground)
+
+    updateBackground()
+  </script>
+</body>
+</html>
